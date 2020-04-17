@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import styles from './User.css'
 import { connect } from 'dva';
 import { Table, Button, Pagination } from 'antd';
-import UserModal from '../components/UserModalComponent'
+import UserModal from '../components/User/UserModal'
 import vars from '../variable'
+import MainLayout from '../components/MainLayout/MainLayout'
 
-function User({ dispatch, paginationData }) {
+function User({ dispatch, paginationData, location }) {
     const pageSize = vars.pageSize;
     useEffect(() => {
         dispatch({
@@ -75,18 +76,20 @@ function User({ dispatch, paginationData }) {
         }
     ];
     return (
-        <div className={styles.normal}>
-            <UserModal onOk={propsCreateOnOk} title="创建用户">
-                <Button type="primary">创建用户</Button>
-            </UserModal>
-            <Table
-                dataSource={paginationData.currentPageList}
-                columns={columns}
-                rowKey={record => record.id}
-                pagination={false}
-            />
-            <Pagination defaultCurrent={1} current={paginationData.page} defaultPageSize={vars.pageSize} total={paginationData.total} onChange={onChangePage} />
-        </div>
+        <MainLayout location={location}>
+            <div className={styles.normal}>
+                <UserModal onOk={propsCreateOnOk} title="创建用户">
+                    <Button type="primary">创建用户</Button>
+                </UserModal>
+                <Table
+                    dataSource={paginationData.currentPageList}
+                    columns={columns}
+                    rowKey={record => record.id}
+                    pagination={false}
+                />
+                <Pagination defaultCurrent={1} current={paginationData.page} defaultPageSize={vars.pageSize} total={paginationData.total} onChange={onChangePage} />
+            </div>
+        </MainLayout>
     )
 }
 
